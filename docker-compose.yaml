@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file: .env
+    command: poetry run uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 80
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    env_file: .env
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+#    volumes:
+#      - ./db_data/:/var/lib/postgresql/data
