@@ -73,7 +73,6 @@ async def handler_create_post(
         post_repo: PostRepository = Depends(get_repository(PostRepository))
 ) -> Post:
     """ Добавление поста в блог. Одно из полей обязательно"""
-    print(files)
     if not text and not link and files == []:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
